@@ -14,13 +14,45 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #01020c;
     --foreground: #ededed;
   }
 }
 
 body {
   background: var(--background);
+  /* color: #171717 !important; */
+  /* background: #ededed; */
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.scroll_hidden::-webkit-scrollbar {
+  display: none;
+}
+/* select {
+  outline: 0;
+}
+
+input,
+textarea,
+select {
+  outline: 0;
+  padding: 12px ;
+  border: 1px solid #333;
+  border-radius: 10px;
+  background-color: rgb(48, 46, 56);
+  width: 100%;
+} */
+.edit-form input,
+.edit-form textarea,
+.edit-form select {
+  outline: 0;
+  padding: 12px;
+  /* border: 1px solid #333; */
+  border: 1px solid #30aacf;
+  border-radius: 10px;
+  /* background-color: rgb(48, 46, 56); */
+  width: 100%;
+}
+/*  */
