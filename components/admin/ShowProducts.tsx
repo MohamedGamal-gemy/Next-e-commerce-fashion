@@ -5,7 +5,6 @@ import HeadTable from "./showProductsTable/HeadTable";
 import BodyTable from "./showProductsTable/bodyTable";
 import EffectLightBackground from "./showProductsTable/EffectLightBackground";
 import { memo, useState } from "react";
-import { X } from "lucide-react";
 import { useGetVariantByIdQuery } from "@/store/variants";
 import { skipToken } from "@reduxjs/toolkit/query";
 import ProductVariantPopover from "./showProductsTable/ProductVariantPopover";

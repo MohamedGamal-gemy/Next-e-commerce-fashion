@@ -1,19 +1,14 @@
 export async function getProductsList({
   page,
-  color,
-  sort,
+  limit,
   subcategory,
 }: {
   page: number;
-  sort: string;
-  color: string[] | string;
-  subcategory: string[] | string;
+  limit: number;
+  subcategory: string | "";
 }) {
   const res = await fetch(
-    `http://localhost:3000/api/products?category=men&subcategory=${subcategory}&sort=${sort}&color=${color}&page=${page}`,
-    {
-      next: { revalidate: 60, tags: ["products"] },
-    }
+    `http://localhost:3000/api/products/show?page=${page}&limit=${limit}&subcategory=${subcategory}`
   );
 
   if (!res.ok) {

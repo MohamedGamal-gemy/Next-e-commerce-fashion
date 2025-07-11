@@ -2,7 +2,7 @@
 import { memo } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ProductType } from "@/types/Product.type";
+import { ProductShowType, ProductType } from "@/types/Product.type";
 import IconQuickLook from "./productsListShow/IconQuickLook";
 import StarReviews from "./productsListShow/StarReviews";
 import HoverImage from "./productsListShow/HoverImage";
@@ -10,7 +10,7 @@ import MainImage from "./productsListShow/MainImage";
 import ColorOfImgThumbnails from "./productsListShow/ColorOfImgThumbnails";
 import useProduct from "@/hooks/useProduct";
 
-const Product = ({ product }: { product: ProductType }) => {
+const Product = ({ product }: { product: ProductShowType }) => {
   const { images, thumbnail, setProductId } = useProduct({
     product,
   });
@@ -25,9 +25,9 @@ const Product = ({ product }: { product: ProductType }) => {
           initial="initial"
           animate="initial"
         >
-          <HoverImage altImg={product?.title} imgHover={images[1].url} />
-          <MainImage altImg={product?.title} mainImage={images[0].url} />
-          <ColorOfImgThumbnails altImg={product?.title} thumbnail={thumbnail} />
+          <HoverImage altImg={product?.title} imgHover={product.firstImage} />
+          <MainImage altImg={product?.title} mainImage={product.secondImage} />
+          {/* <ColorOfImgThumbnails altImg={product?.title} thumbnail={thumbnail} /> */}
         </motion.div>
       </Link>
       <h2

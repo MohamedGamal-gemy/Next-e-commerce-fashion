@@ -22,6 +22,22 @@ export type ProductType = {
   variants: Variant[];
   __v: number;
 };
+export type ProductShowType = {
+  _id: string;
+  title: string;
+  price: number;
+  rating: number;
+  numReviews: number;
+  firstImage: string;
+  secondImage: string;
+  imagesColorsOfVariants: [] | string[];
+  // category: { _id: string; name: string; __v: number };
+  subcategory: { _id: string; name: string; __v: number };
+  createdAt: string;
+  updatedAt: string;
+
+  __v: number;
+};
 
 export type ProductTableShowType = {
   _id: string;
@@ -35,6 +51,5 @@ export type ProductTableShowType = {
   subcategory: { _id: string; name: string; __v?: number } | null;
   createdAt: string;
   updatedAt?: string;
-
   __v?: number;
 };

@@ -5,18 +5,39 @@ export const categories = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3000/api",
   }),
+  tagTypes: ["Category"], // مفيد لو هتستخدم refetch تلقائي
   endpoints: (builder) => ({
     getCategories: builder.query({
-      query: () => {
-        return `/categories`;
-      },
+      query: () => `/categories`,
+      providesTags: ["Category"],
+      keepUnusedDataFor: 60,
     }),
+
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/categories/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Category"],
+    }),
+    updateCategory: builder.mutation({
+      query: ({ id, newData }) => ({
+        url: `/categories/${id}`,
+        method: "PUT",
+        body: newData,
+      }),
+      invalidatesTags: ["Category"],
+    }),
+
     getSubcategories: builder.query({
-      query: () => {
-        return `/subcategories`;
-      },
+      query: () => `/subcategories`,
     }),
   }),
 });
 
-export const { useGetCategoriesQuery, useGetSubcategoriesQuery } = categories;
+export const {
+  useGetCategoriesQuery,
+  useGetSubcategoriesQuery,
+  useDeleteCategoryMutation,
+  useUpdateCategoryMutation,
+} = categories;

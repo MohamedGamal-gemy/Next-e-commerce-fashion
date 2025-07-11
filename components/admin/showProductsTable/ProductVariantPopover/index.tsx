@@ -1,7 +1,6 @@
 import { Variant } from "@/types/Product.type";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRightCircle, X } from "lucide-react";
-import Image from "next/image";
+import { X } from "lucide-react";
 import { memo } from "react";
 import ImagesOfVariantsInModel from "./ImagesOfVariantsInModel";
 import SizesOfVariantsInModel from "./SizesOfVariantsInModel";
@@ -14,7 +13,6 @@ const ProductVariantPopover = ({
   setVariantsModal: (value: string | null) => void;
   isFetching: boolean;
 }) => {
-  console.log("render");
 
   return (
     <AnimatePresence>
@@ -30,7 +28,7 @@ const ProductVariantPopover = ({
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: 100, opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="relative text-gray-950 bg-gray-50 min-w-[20rem] min-h-1/4 rounded-lg p-6 shadow-xl"
+          className="relative text-gray-950 bg-gray-50 min-w-[20rem] min-h-1/4 max-h-11/12 overflow-y-auto rounded-lg p-6 shadow-xl"
         >
           <button
             className="cursor-pointer absolute top-2 right-2 text-red-600"

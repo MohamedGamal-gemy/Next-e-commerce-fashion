@@ -1,7 +1,7 @@
 // app/admin/layout.tsx
 import React from "react";
 import Link from "next/link";
-import { Shirt, User } from "lucide-react";
+import { PaintRoller, PersonStanding, Shirt, User } from "lucide-react";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -25,6 +25,24 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             >
               <User className="w-5 h-5 text-sky-400" />
               <span className="font-medium">Users</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/admin/categories"
+              className="flex items-center gap-3 p-3 hover:bg-slate-600 transition-colors duration-200 rounded-md mx-2"
+            >
+              <PersonStanding className="w-5 h-5 text-sky-400" />
+              <span className="font-medium">Categories</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/admin/users"
+              className="flex items-center gap-3 p-3 hover:bg-slate-600 transition-colors duration-200 rounded-md mx-2"
+            >
+              <PaintRoller className="w-5 h-5 text-sky-400" />
+              <span className="font-medium">Subcategories</span>
             </Link>
           </li>
         </ul>

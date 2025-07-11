@@ -1,50 +1,75 @@
-import Image from "next/image";
+"use client";
+import { useAddToCartMutation } from "@/store/cart";
+import { useState } from "react";
+import SizeAndQuantitySelect from "./rightSideOfDetailsPage/SizeAndQuantitySelect";
+import VariantsOfProduct from "./rightSideOfDetailsPage/VariantsOfProduct";
+import { Variant } from "@/types/Product.type";
+import { toast } from "sonner";
 
-const Right = ({ title, price, sizes, description, imagesOfVariants }) => {
+const Right = ({
+  variants,
+  id,
+  title,
+  price,
+  sizes,
+  description,
+}: {
+  variants: Variant[];
+  id: string;
+  title: string;
+  price: number;
+  sizes: Variant["sizes"];
+  description: string;
+}) => {
+  const [variantId, setVariantId] = useState(variants[0]._id);
+  const [selectedSize, setSelectedSize] = useState<string | undefined>();
+  const [selectedQuantity, setSelectedQuantity] = useState<
+    number | undefined
+  >();
+  const [addToCart] = useAddToCartMutation();
+  const handleAddToCart = () => {
+    if (!selectedSize || !selectedQuantity) {
+      return toast.error("Please select size and quantity");
+    }
+    const dataSend = {
+      productId: id,
+      variantId: variantId,
+      size: selectedSize,
+      quantity: selectedQuantity,
+    };
+    addToCart(dataSend);
+  };
   return (
     <div className="space-y-3 flex-1 ">
       <h2 className="font-semibold text-2xl">{title}</h2>
+
       <div>
         <h2 className="font-semibold">Price</h2>
         <h2 className="text-sky-400 text-2xl font-bold">{price} EGP</h2>
       </div>
-      <div className="flex  gap-4">
-        <select className="bg-slate-800 p-3 rounded-md outline-0 w-1/2">
-          <option value={""}>Select Size</option>
-          {sizes?.map((size) => (
-            <option key={size._id} value={size.size}>
-              {size.size}
-            </option>
-          ))}
-        </select>
-        {/*  */}
-        <select className="bg-slate-800 p-3 rounded-md outline-0 w-1/2 ">
-          <option value={""}>Select Quantity</option>
-          {Array.from({ length: 10 }).map((_, i) => (
-            <option key={i} value={i + 1}>
-              {i + 1}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="flex gap-2.5">
-        {imagesOfVariants?.map((image) => (
-          <Image
-            key={image}
-            src={image}
-            width={40}
-            height={40}
-            alt=""
-            className=""
-          />
-        ))}
-      </div>
+
+      <SizeAndQuantitySelect
+        setSelectedQuantity={setSelectedQuantity}
+        setSelectedSize={setSelectedSize}
+        sizes={sizes}
+      />
+
+      <VariantsOfProduct
+        setVariantId={setVariantId}
+        variantId={variantId}
+        variants={variants}
+      />
+
       <div className="mt-4">
         <h2 className="font-semibold">Description</h2>
         <p>{description}</p>
       </div>
+
       <div className="mt-4">
-        <button className="bg-sky-500 p-3 rounded-md w-full">
+        <button
+          onClick={handleAddToCart}
+          className="bg-sky-500 p-3 rounded-md w-full"
+        >
           Add To Cart
         </button>
       </div>

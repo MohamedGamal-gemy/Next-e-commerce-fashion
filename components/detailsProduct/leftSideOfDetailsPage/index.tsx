@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
-import Thumbnail from "./Thumbnail";
 import { useCallback, useState } from "react";
+import Thumbnail from "../Thumbnail";
 
-const DetailsProduct = ({ images }) => {
+const LeftSideOfDetailsPage = ({ images }) => {
   const [mainImage, setMainImage] = useState(images?.[0]?.url || "");
   const handleThumbnailClick = useCallback(
     (id: string) => {
@@ -12,8 +12,6 @@ const DetailsProduct = ({ images }) => {
     },
     [images]
   );
-  // const optimizedMain = mainImage.replace("/upload/", "/upload/f_auto,q_auto/");
-  // const blurMain = mainImage.replace("/upload/", "/upload/e_blur:2000,q_1/");
 
   return (
     <div className="flex gap-2 flex-1">
@@ -35,14 +33,4 @@ const DetailsProduct = ({ images }) => {
   );
 };
 
-export default DetailsProduct;
-
-{
-  /* src={optimizedMain}
-width={400}
-height={550}
-alt="Main product"
-placeholder="blur"
-blurDataURL={blurMain}
-className="object-cover object-top rounded" */
-}
+export default LeftSideOfDetailsPage;
