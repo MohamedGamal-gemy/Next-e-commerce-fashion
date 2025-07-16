@@ -20,7 +20,7 @@ const DetailsPage = async ({
 
       <div className="max-w-7xl  mx-auto flex justify-between my-4 bg-slate-700/20 p-5">
         {/* left */}
-        <LeftSideOfDetailsPage images={images} />
+        <LeftSideOfDetailsPage images={images}  />
         {/* right */}
         <Right
           variants={variants}

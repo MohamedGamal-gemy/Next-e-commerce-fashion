@@ -2,19 +2,15 @@ import { memo } from "react";
 
 const HeadTable = () => {
   return (
-    <thead className="bg-[#4969ad] text-white">
+    <thead className=" text-gray-300 border-b text-left border-white/20">
       <tr>
-        <th className="py-2 ">Img</th>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Category</th>
-        <th>Subcategory</th>
-        <th>Price</th>
-        <th>Rating</th>
-        <th>Reviews</th>
-        <th>Variants</th>
-        <th>Action</th>
-        <th>Date</th>
+        <th className="py-6 px-4  ">Product</th>
+        <th className="py-6 px-4  ">Category</th>
+        <th className="py-6 px-4  ">Price</th>
+        <th className="py-6 px-4  ">Rating</th>
+        {/* <th className="py-6 px-4  ">Variants</th> */}
+        <th className="py-6 px-4  ">Action</th>
+        <th className="py-6 px-4  ">Date</th>
       </tr>
     </thead>
   );

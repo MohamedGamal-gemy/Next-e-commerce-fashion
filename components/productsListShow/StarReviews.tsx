@@ -9,8 +9,10 @@ const StarReviews = ({ rating }: { rating: number | undefined }) => {
           <Star
             key={index}
             size={14}
-            className="text-[#f47917]"
-            fill={rating && rating > index ? "#f47917" : ""}
+            className={`${
+              rating && rating > index ? "text-yellow-400" : "text-gray-600"
+            }`}
+            fill={rating && rating > index ? "gold" : "transparent"}
           />
         ))}
     </div>

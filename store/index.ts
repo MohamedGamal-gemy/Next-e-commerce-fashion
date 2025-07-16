@@ -6,7 +6,7 @@ import { categories } from "./categories";
 import { singleProduct } from "./singleProduct";
 import { variants } from "./variants";
 import { cart } from "./cart";
-import { colors } from "./colorsfilter";
+import { colorsApi } from "./colorsApi";
 import { users } from "./users";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
@@ -19,7 +19,7 @@ export const store = configureStore({
     [variants.reducerPath]: variants.reducer,
     [cart.reducerPath]: cart.reducer,
     [users.reducerPath]: users.reducer,
-    [colors.reducerPath]: colors.reducer,
+    [colorsApi.reducerPath]: colorsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -30,7 +30,7 @@ export const store = configureStore({
       variants.middleware,
       cart.middleware,
       users.middleware,
-      colors.middleware
+      colorsApi.middleware
     ),
 });
 setupListeners(store.dispatch);

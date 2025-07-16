@@ -22,12 +22,9 @@ const ShowProducts = ({ products }: { products: ProductTableShowType[] }) => {
   );
 
   return (
-    <div className="relative">
-      <EffectLightBackground />
-      <table
-        className="lg:max-w-6xl md:max-w-5xl sm:max-w-4xl max-w-3xl mx-auto w-full
-       bg-slate-600/20 mt-6 rounded-md relative"
-      >
+    <div className="">
+      {/* <EffectLightBackground /> */}
+      <table className="lg:max-w-6xl w-full   ">
         <HeadTable />
         <BodyTable
           products={products}

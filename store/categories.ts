@@ -1,9 +1,10 @@
+import { api } from "@/server";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const categories = createApi({
   reducerPath: "categories",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/api",
+    baseUrl: api,
   }),
   tagTypes: ["Category"], // مفيد لو هتستخدم refetch تلقائي
   endpoints: (builder) => ({

@@ -1,83 +1,150 @@
 "use client";
 import { memo, useEffect, useState } from "react";
 import { getSingleProduct } from "@/lib/getSingleProduct";
-import { X } from "lucide-react";
+import { ShoppingBasket, X } from "lucide-react";
 import Image from "next/image";
 import { ProductType } from "@/types/Product.type";
 import { useQuickView } from "@/context/QuickViewContext";
+import { motion, AnimatePresence } from "framer-motion"; // For animations
+import StarReviews from "./productsListShow/quickLook/StarReviews";
+import Thumbnails from "./productsListShow/quickLook/Thumbnails";
+import VariantsColor from "./productsListShow/quickLook/VariantsColor";
+import SizesAndQuantitySelect from "./productsListShow/quickLook/SizesAndQuantitySelect";
 
 const QuickLook = () => {
   const { productId, setProductId } = useQuickView();
   const [product, setProduct] = useState<ProductType | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [indexVariant, setIndexVariant] = useState<number>(0);
+  const [sizeSelected, setSizeSelected] = useState<string | null>(null);
+  const [quantityAvailability, setQuantityAvailability] = useState<number>(1);
 
   useEffect(() => {
     if (!productId) return;
     const fetchData = async () => {
-      const res = await getSingleProduct({ id: productId });
-      setProduct(res);
+      try {
+        const res = await getSingleProduct({ id: productId });
+        setProduct(res);
+        setSelectedImage(res?.variants?.[0]?.images?.[0]?.url || null);
+      } catch (error) {
+        console.error("Failed to fetch product:", error);
+      }
     };
     fetchData();
   }, [productId]);
 
   if (!productId) return null;
-  if (!product)
-    return (
-      <div className="fixed right-0 top-0 bg-white w-[30%] h-screen z-50 p-4">
-        Loading...
-      </div>
-    );
-  const colors = product.variants.map((variant) => variant.images[0]);
-  //   console.log("imagesOfVariants", imagesOfVariants);
-  const thumbnails = product.variants?.[0]?.images;
 
   return (
-    <div className="fixed right-0 top-0 bg-white w-[30%] h-screen z-50 p-4 text-black shadow-lg overflow-y-auto">
-      <button
-        className="absolute top-2 right-4 text-red-500 font-bold text-lg cursor-pointer"
-        onClick={() => setProductId(null)}
-      >
-        <X />
-      </button>
-      <div className="my-6">
-        <h2 className="text-xl font-bold mb-2">{product.title}</h2>
-        <p className="text-sm mb-2">{product.description}</p>
-        <p className="text-blue-600 font-semibold mb-4">{product.price} EGP</p>
+    <AnimatePresence>
+      {productId && (
+        <motion.div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm   z-50 flex justify-end"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <motion.div
+            className="bg-white w-full sm:w-[400px] h-full p-6 overflow-y-auto shadow-xl"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            {/* Close Button */}
+            <button
+              className="absolute top-4 right-4 text-gray-600 hover:text-red-500 transition-colors"
+              onClick={() => setProductId(null)}
+              aria-label="Close Quick Look"
+            >
+              <X size={24} />
+            </button>
 
-        <div className="w-full flex gap-2">
-          <div className="space-y-2">
-            {thumbnails.map((g) => (
-              <Image
-                key={g._id}
-                src={g.url}
-                alt={product.title}
-                width={300}
-                height={300}
-                className="w-12  h-12 rounded "
-              />
-            ))}
-          </div>
-          <Image
-            src={product.variants?.[0]?.images?.[0]?.url}
-            alt={product.title}
-            width={300}
-            height={300}
-            className="  max-h-[430px] rounded-md "
-          />
-        </div>
-        <div className="flex gap-2 justify-center mt-2">
-          {colors?.map((color) => (
-            <Image
-              key={color._id}
-              src={color.url}
-              alt={product.title}
-              width={300}
-              height={300}
-              className="  w-10 h-10 rounded-full "
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+            {/* Loading State */}
+            {!product ? (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-gray-500">Loading...</p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {/* Product Title and Rating */}
+                <div>
+                  <h2 className="text-2xl font-semibold text-gray-800">
+                    {product.title}
+                  </h2>
+                  <StarReviews
+                    numReviews={product?.numReviews}
+                    rating={product?.rating}
+                  />
+                </div>
+
+                {/* Product Description */}
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {product.description}
+                </p>
+
+                {/* Price */}
+                <p className="text-xl font-bold text-blue-600">
+                  {product.price} EGP
+                </p>
+
+                {/* Image Gallery */}
+                <div className="space-y-4">
+                  {/* Main Image */}
+                  <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                    <Image
+                      src={
+                        selectedImage || product.variants?.[0]?.images?.[0]?.url
+                      }
+                      alt={product.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, 400px"
+                      priority
+                    />
+                  </div>
+
+                  {/* Thumbnails */}
+                  <div className="flex gap-2 overflow-x-auto pb-2">
+                    <Thumbnails
+                      selectedImage={selectedImage}
+                      setSelectedImage={selectedImage}
+                      title={product?.title}
+                      images={product?.variants[indexVariant]?.images}
+                    />
+                  </div>
+                </div>
+
+                {/* Variants (Colors) */}
+                <VariantsColor
+                  setIndexVariant={setIndexVariant}
+                  variants={product?.variants}
+                  setSelectedImage={selectedImage}
+                />
+
+                <SizesAndQuantitySelect
+                  sizes={product?.variants[indexVariant]?.sizes}
+                  setQuantityAvailability={setQuantityAvailability}
+                  quantityAvailability={quantityAvailability}
+                  sizeSelected={sizeSelected}
+                  setSizeSelected={setSizeSelected}
+                />
+
+                <div
+                  className="flex items-center py-2 justify-center text-center gap-2
+                   bg-sky-600 text-white  w-full rounded-md
+                cursor-pointer transition-colors  hover:bg-sky-700 duration-200"
+                >
+                  <span className="font-bold">Add To Cart</span>
+                  <ShoppingBasket className="text-gray-700 animate-bounce" />
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

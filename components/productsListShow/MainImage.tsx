@@ -7,18 +7,18 @@ type MainImageProps = {
 const MainImage = ({ mainImage, altImg }: MainImageProps) => {
   return (
     <motion.div
-      variants={{
-        initial: { opacity: 1 },
-        hover: { opacity: 0 },
-      }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="absolute inset-0 z-0"
+    // variants={{
+    //   initial: { x: 0, opacity: 1 },
+    //   // hover: { x: 300, opacity:0 },
+    // }}
+    // transition={{ duration: 0.5, ease: "easeIn" }}
+    // className="absolute inset-0 z-0"
+    className="w-full h-full"
     >
       <Image
         src={mainImage}
-        width={400}
-        height={400}
-        priority
+        width={300}
+        height={300}
         alt={altImg}
         className="object-cover object-top rounded h-full w-full "
       />

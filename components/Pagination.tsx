@@ -1,23 +1,33 @@
 "use client";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { parseAsInteger, useQueryState } from "nuqs";
 
 type Props = {
   currentPage: number;
   totalPages: number;
+  onPageChange?: (page: number) => void; // Prop اختياري لتحديث الصفحة
 };
 
-const Pagination = ({ currentPage, totalPages }: Props) => {
-  const searchParams = useSearchParams();
+const Pagination = ({ currentPage, totalPages, onPageChange }: Props) => {
+  const [selectedPage, setSelectedPage] = useQueryState(
+    "page",
+    parseAsInteger.withDefault(1)
+  );
 
-  const generatePageUrl = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", page.toString());
-    return `?${params.toString()}`;
+  const router = useRouter();
+  const handlePageChange = (newPage: number) => {
+    setSelectedPage(newPage, {
+      history: "replace",
+      shallow: true,
+    }).then(() => {
+      router.refresh();
+    });
+    // setSelectedPage(page);
+    // if (onPageChange) {
+    //   onPageChange(page);
+    // }
   };
-
-  if (totalPages <= 1) return null;
 
   return (
     <div className="flex justify-center items-center gap-2 mt-6 flex-wrap">
@@ -26,15 +36,15 @@ const Pagination = ({ currentPage, totalPages }: Props) => {
         const isActive = currentPage === page;
 
         return (
-          <Link
+          <button
             key={page}
-            href={generatePageUrl(page)}
+            onClick={() => handlePageChange(page)}
             className={`px-4 py-2 rounded cursor-pointer ${
               isActive ? "bg-sky-500 text-white" : "bg-slate-800 text-gray-300"
             } hover:bg-sky-600 transition`}
           >
             {page}
-          </Link>
+          </button>
         );
       })}
     </div>

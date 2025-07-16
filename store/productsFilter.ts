@@ -6,8 +6,8 @@ export const productsFilter = createApi({
   }),
   endpoints: (builder) => ({
     getFilteringProducts: builder.query({
-      query: (category) => {
-        return `/products/filters?category=${category}`;
+      query: () => {
+        return `/products/filters?category=men`;
       },
     }),
   }),

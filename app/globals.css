@@ -147,8 +147,10 @@ select {
   --sidebar-ring: oklch(0.556 0 0);
 }
 body {
-  background-color: var(--background);
-  background-color: rgb(3, 2, 20);
+  /* background-color: var(--background); */
+  background-color: rgb(3, 2, 15);
+  /* background-color: rgb(3, 2, 20); */
+
   color: var(--foreground);
   color: whitesmoke;
 }
@@ -157,6 +159,16 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    /* @apply bg-background text-foreground; */
+    /* @apply  bg-gradient-to-br from-[#050116]  to-[#050116] via-[#252549]/70  ; */
   }
+}
+.bg-custom-gradient {
+  background-image: linear-gradient(
+        318deg,
+        oklch(11.968% 0.03857 261.195) 0%,
+        oklch(24.253% 0.08273 257.558 / 0.774)
+      )
+      40%,
+    oklch(18.22% 0.04881 255.193 / 0.774) 100%;
 }

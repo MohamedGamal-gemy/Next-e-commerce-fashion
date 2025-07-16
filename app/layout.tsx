@@ -33,10 +33,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          <QuickViewProvider>
-            <Header />
-            <main>{children}</main>
-          </QuickViewProvider>
+          <Header />
+          <main>{children}</main>
         </ReduxProvider>
         <Toaster />
       </body>

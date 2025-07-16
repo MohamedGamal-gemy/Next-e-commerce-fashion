@@ -1,6 +1,6 @@
 export const getSingleProduct = async ({ id }: { id: string | undefined }) => {
   if (id !== undefined) {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`);
+    const res = await fetch(`http://localhost:9000/api/products/${id}`);
     if (!res.ok) {
       throw new Error("Failed to fetch products");
     }

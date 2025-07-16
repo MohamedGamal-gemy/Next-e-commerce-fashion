@@ -2,7 +2,7 @@ import Image from "next/image";
 import Actions from "../Actions";
 import { ProductTableShowType } from "@/types/Product.type";
 import { memo } from "react";
-import { Eye, MoreHorizontal } from "lucide-react";
+import { Eye, MoreHorizontal, Package, Package2, Star } from "lucide-react";
 
 const BodyTable = ({
   products,
@@ -20,58 +20,68 @@ const BodyTable = ({
   return (
     <tbody className="text-center">
       {products?.map((product: ProductTableShowType) => (
-        <tr key={product._id}>
-          <td className="py-2 pl-4">
-            <Image
-              height={80}
-              width={80}
-              className="w-14 h-14 rounded-full object-cover object-top"
-              src={product.firstImage}
-              alt=""
-            />
+        <tr key={product._id} className="divide-y divide-white/10">
+          <td className="py-4 px-6 text-left">
+            <div className="flex  gap-3 ">
+              <div className="relative">
+                <Image
+                  height={60}
+                  width={60}
+                  className="w-12 h-12 rounded-xl object-cover object-top"
+                  src={product.firstImage}
+                  alt=""
+                />
+                <span className="absolute -right-1 -top-1 w-4 h-4 border-white border-2 rounded-full bg-green-400" />
+              </div>
+              <div className="">
+                <h2 className="font-medium ">{product.title}</h2>
+                <h4 className="text-sm text-gray-400">
+                  {product.subcategory?.name}
+                </h4>
+                <div>
+                  <button
+                    className="cursor-pointer text-blue-400 mt-2 flex gap-1 items-center"
+                    onClick={() => setOpenModal(product.description)}
+                  >
+                    <Eye size={14} />
+                    <p className="text-xs">View Description</p>
+                  </button>
+                </div>
+              </div>
+            </div>
           </td>
-          <td>{product.title}</td>
-          <td>
-            <button
-              className="cursor-pointer"
-              onClick={() => setOpenModal(product.description)}
-            >
-              <Eye />
-            </button>
+          <td className="py-4 px-6">
+            <div className="flex gap-2 items-center">
+              <Package color="gray" />
+              <p> {product.category?.name}</p>
+            </div>
           </td>
-          <td>{product.category?.name}</td>
-          <td>{product.subcategory?.name || "null"}</td>
           {/* <td>{product.description}</td> */}
-          <td>{product.price}</td>
-          <td>{product.rating}</td>
-          <td>{product.numReviews}</td>
-          <td>
+          <td className="py-4 px-6">{product.price}</td>
+          <td className="py-4 px-6">
+            <div className="flex gap-2 items-center">
+              <Star color="gold" fill="gold" size={16} />
+              <div className="flex gap-1 items-center">
+                <p>{product.rating}</p>
+                <span className="text-gray-400">({product.numReviews})</span>
+              </div>
+            </div>
+          </td>
+          {/* <td className="py-4 px-6">
             <button
               className="cursor-pointer"
-              onClick={() => setVariantsModal(product._id)}
             >
               <Eye />
             </button>
+          </td> */}
+          <td className="py-4 px-6">
+            <Actions id={product._id} setVariantsModal={setVariantsModal} />
           </td>
-          {/* <td>{new Date(product.createdAt).toLocaleDateString()}</td> */}
-          <td>
-            <Actions id={product._id} />
-          </td>
-          <td className="">
+          <td className="py-4 px-6">
             <div className="relative">
-              <button
-                className="cursor-pointer relative "
-                // onClick={() => setProductDate(product._id)}
-              >
+              <button className="cursor-pointer relative ">
                 <MoreHorizontal />
               </button>
-              {/* {productDate && productDate === product._id && (
-                <div className="bg-white p-4 rounded-md w-[200px] text-gray-950 absolute bottom-4 right-4">
-                  <h2 className="bg-slate-200">created At</h2>
-                  <hr />
-                  <h2 className="bg-slate-200">updated At</h2>
-                </div>
-              )} */}
             </div>
           </td>
         </tr>

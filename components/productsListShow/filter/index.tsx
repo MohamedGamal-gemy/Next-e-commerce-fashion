@@ -1,123 +1,34 @@
-// "use client";
-
-// import { useGetSubcategoriesQuery } from "@/store/categories";
-// import { useGetColorsQuery } from "@/store/colorsfilter";
-// import { useRouter, useSearchParams } from "next/navigation";
-
-// const Filter = () => {
-//   const { data: subcategories } = useGetSubcategoriesQuery();
-//   const { data: colors } = useGetColorsQuery();
-//   const search = useSearchParams();
-//   const router = useRouter();
-//   const handleSubcategorySearchparams = (sub) => {
-//     const params = new URLSearchParams(search.toString());
-//     params.set("subcategory", sub.toString());
-//     router.push(`?${params.toString()}`);
-//   };
-//   return (
-//     <div className="w-[17rem] min-h-screen text-slate-800 bg-slate-100 p-4">
-//       <h2 className="font-bold text-2xl text-black">Filter</h2>
-//       <div>
-//         <h3 className="text-xl font-semibold my-3">Filter by Subcategory</h3>
-//         {subcategories?.map((sub) => (
-//           <div key={sub._id} className="flex gap-2 items-center my-1">
-//             <input
-//               type="checkbox"
-//               id={sub._id}
-//               onChange={() => handleSubcategorySearchparams(sub._id)}
-//             />
-//             <label htmlFor={sub._id}>{sub.name}</label>
-//           </div>
-//         ))}
-//       </div>
-//       <div>
-//         <h3 className="text-xl font-semibold my-3">Filter by Colors</h3>
-//         {colors?.map((color) => (
-//           <div key={color._id} className="flex gap-2 items-center my-1">
-//             <input type="checkbox" id={color._id} />
-//             <label htmlFor={color._id}>{color.color.name}</label>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Filter;
-
 "use client";
 
-import { useState, useEffect } from "react";
-import { useGetSubcategoriesQuery } from "@/store/categories";
-import { useGetColorsQuery } from "@/store/colorsfilter";
-import { useRouter, useSearchParams } from "next/navigation";
+import { memo } from "react";
+import SubcategoryFilter from "./SubcategoryFilter";
+import ColorFilter from "./ColorFilter";
 
-const Filter = () => {
-  const { data: subcategories } = useGetSubcategoriesQuery();
-  const { data: colors } = useGetColorsQuery();
-  const search = useSearchParams();
-  const router = useRouter();
-
-  // 🟡 1. الحالة للمصنفات المختارة
-  const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>(
-    () => {
-      const initial = search.get("subcategory");
-      return initial ? initial.split(",") : [];
-    }
-  );
-
-  // 🟡 2. تعديل القيم داخل المصفوفة
-  const handleSubcategoryChange = (subId: string) => {
-    let updated: string[];
-
-    if (selectedSubcategories.includes(subId)) {
-      updated = selectedSubcategories.filter((id) => id !== subId);
-    } else {
-      updated = [...selectedSubcategories, subId];
-    }
-
-    setSelectedSubcategories(updated);
-
-    const params = new URLSearchParams(search.toString());
-    if (updated.length > 0) {
-      params.set("subcategory", updated.join(","));
-    } else {
-      params.delete("subcategory");
-    }
-
-    router.push(`?${params.toString()}`);
-  };
-
+const Filter = ({ subcategories, colors }) => {
   return (
-    <div className="w-[17rem] min-h-screen text-slate-800 bg-slate-100 p-4">
-      <h2 className="font-bold text-2xl text-black">Filter</h2>
-
-      <div>
-        <h3 className="text-xl font-semibold my-3">Filter by Subcategory</h3>
-        {subcategories?.map((sub) => (
-          <div key={sub._id} className="flex gap-2 items-center my-1">
-            <input
-              type="checkbox"
-              id={sub._id}
-              checked={selectedSubcategories.includes(sub.name)}
-              onChange={() => handleSubcategoryChange(sub.name)}
-            />
-            <label htmlFor={sub._id}>{sub.name}</label>
-          </div>
-        ))}
+    <div className="w-64 bg-slate-400/15 backdrop-blur-sm border-r border-slate-700/50 p-6 h-fit sticky top-8">
+      <div className="mb-6">
+        <h2
+          className="text-2xl font-bold bg-gradient-to-r from-white to-purple-200 
+        bg-clip-text text-transparent mb-2"
+        >
+          Filters
+        </h2>
       </div>
 
-      <div>
-        <h3 className="text-xl font-semibold my-3">Filter by Colors</h3>
-        {colors?.map((color) => (
-          <div key={color._id} className="flex gap-2 items-center my-1">
-            <input type="checkbox" id={color._id} />
-            <label htmlFor={color._id}>{color.color.name}</label>
-          </div>
-        ))}
+      <div className="space-y-6">
+        {/* Subcategory Filter */}
+        <div className="bg-slate-900/30 rounded-xl p-4 border border-slate-700/30">
+          <SubcategoryFilter subcategories={subcategories} />
+        </div>
+
+        {/* Color Filter */}
+        <div className="bg-slate-900/30 rounded-xl p-4 border border-slate-700/30">
+          <ColorFilter colors={colors} />
+        </div>
       </div>
     </div>
   );
 };
 
-export default Filter;
+export default memo(Filter);

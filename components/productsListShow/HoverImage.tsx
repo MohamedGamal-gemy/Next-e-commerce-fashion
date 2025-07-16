@@ -11,10 +11,10 @@ const HoverImage = ({ imgHover, altImg }: HoverImageProps) => {
       {imgHover && (
         <motion.div
           variants={{
-            initial: { opacity: 0, scale: 1.1 },
-            hover: { opacity: 1, scale: 1 },
+            initial: { x: 0, opacity: 0 },
+            // hover: { opacity: 1 },
           }}
-          transition={{ duration: 0.6, delay: 0.1, ease: "easeInOut" }}
+          transition={{ duration: 0.5, ease: "easeIn" }}
           className="absolute inset-0 z-10"
         >
           <Image

@@ -1,55 +1,30 @@
 // app/admin/layout.tsx
 import React from "react";
 import Link from "next/link";
-import { PaintRoller, PersonStanding, Shirt, User } from "lucide-react";
+import {
+  BarChart3,
+  ChartBar,
+  ChartBarBigIcon,
+  ChartBarStacked,
+  PaintRoller,
+  PersonStanding,
+  Shirt,
+  User,
+} from "lucide-react";
+import Sidebar from "@/components/admin/SideBar";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
+  //  #01030e
+  // via-blue-800/25
+  // via-[#1f1f42]
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <aside className="w-[200px] bg-slate-950 text-white shadow-lg">
-        <ul className="py-4">
-          <li>
-            <Link
-              href="/admin/products"
-              className="flex items-center gap-3 p-3 hover:bg-slate-600 transition-colors duration-200 rounded-md mx-2"
-            >
-              <Shirt className="w-5 h-5 text-sky-400" />
-              <span className="font-medium">Products</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/admin/users"
-              className="flex items-center gap-3 p-3 hover:bg-slate-600 transition-colors duration-200 rounded-md mx-2"
-            >
-              <User className="w-5 h-5 text-sky-400" />
-              <span className="font-medium">Users</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/admin/categories"
-              className="flex items-center gap-3 p-3 hover:bg-slate-600 transition-colors duration-200 rounded-md mx-2"
-            >
-              <PersonStanding className="w-5 h-5 text-sky-400" />
-              <span className="font-medium">Categories</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/admin/users"
-              className="flex items-center gap-3 p-3 hover:bg-slate-600 transition-colors duration-200 rounded-md mx-2"
-            >
-              <PaintRoller className="w-5 h-5 text-sky-400" />
-              <span className="font-medium">Subcategories</span>
-            </Link>
-          </li>
-        </ul>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 p-6 ">{children}</main>
+    <div className="bg-gradient-to-br from-[#111216] via-[#333369]/50 to-[#111116] ">
+      <div className="flex min-h-screen  ">
+        {/* Sidebar */}
+        <Sidebar />
+        {/* Main Content */}
+        <main className="flex-1 p-6 ">{children}</main>
+      </div>
     </div>
   );
 };
