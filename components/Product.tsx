@@ -28,16 +28,16 @@ const Product = ({ product }: { product: ProductShowType }) => {
       >
         <IconQuickLook id={product._id} setProductId={setProductId} />
       </div>
-      <Link href={`/products/${product.category}/${product._id}`}>
-      <motion.div
-        className="relative w-full h-[270px] overflow-hidden"
-        whileHover="hover"
-        initial="initial"
-        animate="initial"
-      >
-        <MainImage altImg={product?.title} mainImage={product.firstImage} />
-        {/* <ColorOfImgThumbnails altImg={product?.title} thumbnail={thumbnail} /> */}
-      </motion.div>
+      <Link href={`/products/${product.category.name}/${product._id}`}>
+        <motion.div
+          className="relative w-full h-[270px] overflow-hidden"
+          whileHover="hover"
+          initial="initial"
+          animate="initial"
+        >
+          <MainImage altImg={product?.title} mainImage={product.firstImage} />
+          {/* <ColorOfImgThumbnails altImg={product?.title} thumbnail={thumbnail} /> */}
+        </motion.div>
       </Link>
       <div className="p-4 ">
         <h3

@@ -7,15 +7,16 @@ type MainImageProps = {
 const MainImage = ({ mainImage, altImg }: MainImageProps) => {
   return (
     <motion.div
-    // variants={{
-    //   initial: { x: 0, opacity: 1 },
-    //   // hover: { x: 300, opacity:0 },
-    // }}
-    // transition={{ duration: 0.5, ease: "easeIn" }}
-    // className="absolute inset-0 z-0"
-    className="w-full h-full"
+      // variants={{
+      //   initial: { x: 0, opacity: 1 },
+      //   // hover: { x: 300, opacity:0 },
+      // }}
+      // transition={{ duration: 0.5, ease: "easeIn" }}
+      // className="absolute inset-0 z-0"
+      className="w-full h-full"
     >
       <Image
+        priority
         src={mainImage}
         width={300}
         height={300}

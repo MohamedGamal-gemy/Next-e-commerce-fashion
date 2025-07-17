@@ -1,10 +1,25 @@
 import { Checkbox } from "@/components/ui/checkbox";
+import { useRouter } from "next/navigation";
+import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 
-const ColorFilter = ({
-  colors,
-  // , selectedColors,
-  // onColorChange
-}) => {
+const ColorFilter = ({ colors }) => {
+  const [selectedColors, setSelectedColors] = useQueryState(
+    "color",
+    parseAsArrayOf(parseAsString).withDefault([])
+  );
+  const router = useRouter();
+  const handleChangecolor = (color) => {
+    const newValues = selectedColors.includes(color)
+      ? selectedColors.filter((item) => item !== color)
+      : [...selectedColors, color];
+
+    setSelectedColors(newValues, {
+      history: "replace",
+      shallow: true,
+    }).then(() => {
+      router.refresh();
+    });
+  };
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
@@ -58,8 +73,8 @@ const ColorFilter = ({
                   className="!bg-slate-800 !text-white border !w-5 !h-5 flex flex-col items-center justify-center
                 !border-slate-600 "
                   id={`color-${color._id}`}
-                  // checked={selectedColors.includes(color._id)}
-                  // onCheckedChange={() => onColorChange(color._id)}
+                  checked={selectedColors.includes(color.color.name)}
+                  onCheckedChange={() => handleChangecolor(color.color.name)}
                   // className="sr-only"
                 />
                 <label htmlFor={`color-${color._id}`}>{color.color.name}</label>

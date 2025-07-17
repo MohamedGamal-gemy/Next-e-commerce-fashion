@@ -29,14 +29,14 @@ export type ProductShowType = {
   rating: number;
   numReviews: number;
   firstImage: string;
-  secondImage: string;
-  imagesColorsOfVariants: [] | string[];
-  // category: { _id: string; name: string; __v: number };
-  subcategory: { _id: string; name: string; __v: number };
+  secondImage?: string;
+  imagesColorsOfVariants?: [] | string[];
+  category: { _id: string; name: string; __v?: number };
+  subcategory: { _id: string; name: string; __v?: number };
   createdAt: string;
   updatedAt: string;
 
-  __v: number;
+  __v?: number;
 };
 
 export type ProductTableShowType = {

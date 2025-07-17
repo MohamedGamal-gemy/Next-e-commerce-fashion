@@ -10,7 +10,7 @@ const StarReviews = ({ rating, numReviews }) => {
             key={i}
             size={16}
             className={cn(
-              i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+              i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-400"
             )}
           />
         ))}

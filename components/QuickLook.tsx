@@ -46,7 +46,7 @@ const QuickLook = () => {
           transition={{ duration: 0.3 }}
         >
           <motion.div
-            className="bg-white w-full sm:w-[400px] h-full p-6 overflow-y-auto shadow-xl"
+            className="bg-slate-900 w-full sm:w-[400px] h-full p-6 overflow-y-auto shadow-xl"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -70,7 +70,7 @@ const QuickLook = () => {
               <div className="space-y-6">
                 {/* Product Title and Rating */}
                 <div>
-                  <h2 className="text-2xl font-semibold text-gray-800">
+                  <h2 className="text-2xl font-semibold text-gray-100">
                     {product.title}
                   </h2>
                   <StarReviews
@@ -80,7 +80,7 @@ const QuickLook = () => {
                 </div>
 
                 {/* Product Description */}
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-gray-300 text-sm leading-relaxed">
                   {product.description}
                 </p>
 

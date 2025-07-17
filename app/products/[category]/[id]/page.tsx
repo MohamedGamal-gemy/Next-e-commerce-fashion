@@ -1,5 +1,8 @@
+import AddReview from "@/components/detailsProduct/AddReview";
+import GetAllReviewsOfProduct from "@/components/detailsProduct/GetAllReviewsOfProduct";
 import LeftSideOfDetailsPage from "@/components/detailsProduct/leftSideOfDetailsPage";
 import Right from "@/components/detailsProduct/Right";
+import { getReviews } from "@/lib/getReviews";
 import { getSingleProduct } from "@/lib/getSingleProduct";
 
 const DetailsPage = async ({
@@ -8,6 +11,8 @@ const DetailsPage = async ({
   params: Promise<{ category: string; id: string }>;
 }) => {
   const { id } = await params;
+  const reviews = await getReviews(id);
+
   const { variants, title, price, description } = await getSingleProduct({
     id,
   });
@@ -20,7 +25,7 @@ const DetailsPage = async ({
 
       <div className="max-w-7xl  mx-auto flex justify-between my-4 bg-slate-700/20 p-5">
         {/* left */}
-        <LeftSideOfDetailsPage images={images}  />
+        <LeftSideOfDetailsPage images={images} />
         {/* right */}
         <Right
           variants={variants}
@@ -30,6 +35,10 @@ const DetailsPage = async ({
           sizes={sizes}
           description={description}
         />
+      </div>
+      <div className="container mb-8 mx-auto flex justify-between items-start gap-8">
+        <GetAllReviewsOfProduct reviews={reviews} />
+        <AddReview productId={id} />
       </div>
     </div>
   );

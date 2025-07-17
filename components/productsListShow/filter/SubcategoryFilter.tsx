@@ -3,19 +3,25 @@
 import { CloudMoonRain, Contact } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
+import { useRouter } from "next/navigation";
 
 const SubcategoryFilter = ({ subcategories }) => {
   const [selectedSubcategories, setSelectedSubcategories] = useQueryState(
     "subcategory",
-    parseAsArrayOf(parseAsString).withDefault([]) // ✅ هنا السحر
+    parseAsArrayOf(parseAsString).withDefault([]) 
   );
-
+  const router = useRouter();
   const handleChange = (name) => {
     const newValues = selectedSubcategories.includes(name)
       ? selectedSubcategories.filter((item) => item !== name)
       : [...selectedSubcategories, name];
 
-    setSelectedSubcategories(newValues);
+    setSelectedSubcategories(newValues, {
+      history: "replace",
+      shallow: true,
+    }).then(() => {
+      router.refresh();
+    });
   };
 
   return (

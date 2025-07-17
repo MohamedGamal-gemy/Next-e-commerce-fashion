@@ -5,6 +5,7 @@ import SizeAndQuantitySelect from "./rightSideOfDetailsPage/SizeAndQuantitySelec
 import VariantsOfProduct from "./rightSideOfDetailsPage/VariantsOfProduct";
 import { Variant } from "@/types/Product.type";
 import { toast } from "sonner";
+import AddReview from "./AddReview";
 
 const Right = ({
   variants,
@@ -42,6 +43,10 @@ const Right = ({
   return (
     <div className="space-y-3 flex-1 ">
       <h2 className="font-semibold text-2xl">{title}</h2>
+      <div className="mt-4">
+        <h2 className="font-semibold">Description</h2>
+        <p>{description}</p>
+      </div>
 
       <div>
         <h2 className="font-semibold">Price</h2>
@@ -59,12 +64,6 @@ const Right = ({
         variantId={variantId}
         variants={variants}
       />
-
-      <div className="mt-4">
-        <h2 className="font-semibold">Description</h2>
-        <p>{description}</p>
-      </div>
-
       <div className="mt-4">
         <button
           onClick={handleAddToCart}

@@ -1,10 +1,11 @@
 "use client";
+import { api } from "@/server";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const users = createApi({
   reducerPath: "users",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/api",
+    baseUrl: api,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) {

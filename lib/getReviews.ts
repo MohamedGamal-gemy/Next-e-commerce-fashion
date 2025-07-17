@@ -1,13 +1,11 @@
-export async function getReviews() {
-  const res = await fetch(`http://localhost:3000/api/reviews`, {
-    next: { revalidate: 60 },
+export async function getReviews(productId: string) {
+  const res = await fetch(`http://localhost:9000/api/reviews/${productId}`, {
+    cache: "no-store",
   });
+
   if (!res.ok) {
-    throw new Error("Failed to fetch products");
+    throw new Error("Failed to fetch reviews");
   }
 
-  const reviews = await res.json();
-  //   console.log("data",reviews);
-
-  return reviews;
+  return res.json();
 }
