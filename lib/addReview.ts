@@ -1,3 +1,7 @@
+"use server";
+
+import { revalidateTag } from "next/cache";
+
 export async function addReview(
   reviewData: { productId: string; rating: number; comment: string },
   token: string
@@ -7,7 +11,7 @@ export async function addReview(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // ✅ إضافة التوكن
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(reviewData),
     });
@@ -18,6 +22,7 @@ export async function addReview(
     }
 
     const data = await res.json();
+    revalidateTag("reviews");
     return data;
   } catch (error) {
     console.error("Error adding review:", error);

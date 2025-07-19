@@ -3,7 +3,12 @@ import { FilterIcon, X } from "lucide-react";
 import Filter from "../filter";
 import { memo, useState } from "react";
 
-const MobileFilter = () => {
+const MobileFilter = ({
+  subcategories,
+  colors,
+  minPriceDefault,
+  maxPriceDefault,
+}) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
@@ -38,7 +43,12 @@ const MobileFilter = () => {
             </button>
           </div>
           <div className="mt-4">
-            <Filter />
+            <Filter
+              subcategories={subcategories}
+              colors={colors}
+              minPriceDefault={minPriceDefault}
+              maxPriceDefault={maxPriceDefault}
+            />
           </div>
         </div>
       )}

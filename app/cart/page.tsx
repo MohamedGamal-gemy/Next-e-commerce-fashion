@@ -1,16 +1,13 @@
-"use client";
+// "use client"
 import EffectLightBackground from "@/components/admin/showProductsTable/EffectLightBackground";
 import CartItems from "@/components/cart/CartItems";
+import { getCart } from "@/lib/cartApi";
 import { useGetCartItemsQuery } from "@/store/cart";
 import { CartItem } from "@/types/Cart.type";
 
-const Cart = () => {
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
-  const { data, refetch, isFetching } = useGetCartItemsQuery(token, {
-    skip: !token,
-  });
+const Cart = async() => {
+  const data = await getCart();
+  // const { data } = useGetCartItemsQuery();
   return (
     <div className="min-h-screen p-4 sm:p-8 relative">
       <EffectLightBackground />
@@ -28,7 +25,10 @@ const Cart = () => {
         {data?.items?.length > 0 && (
           <div className="text-right mt-8">
             <h3 className="text-xl font-bold">
-              Total: <span className="text-green-600">{/* total here */}</span>
+              Total:{" "}
+              {/* <span className="text-green-600">
+                ${data.items.reduce((sum, i) => sum + i.price * i.quantity, 0)}
+              </span> */}
             </h3>
             <button className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
               Proceed to Checkout
@@ -39,5 +39,4 @@ const Cart = () => {
     </div>
   );
 };
-
 export default Cart;

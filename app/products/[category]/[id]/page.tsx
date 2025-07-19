@@ -11,11 +11,13 @@ const DetailsPage = async ({
   params: Promise<{ category: string; id: string }>;
 }) => {
   const { id } = await params;
-  const reviews = await getReviews(id);
 
+  const { reviews, numReviews, averageRating } = await getReviews(id);
   const { variants, title, price, description } = await getSingleProduct({
     id,
   });
+  console.log("id", id);
+
   const images = variants?.[0]?.images;
   const sizes = variants?.[0]?.sizes;
 
@@ -37,8 +39,13 @@ const DetailsPage = async ({
         />
       </div>
       <div className="container mb-8 mx-auto flex justify-between items-start gap-8">
-        <GetAllReviewsOfProduct reviews={reviews} />
-        <AddReview productId={id} />
+        <GetAllReviewsOfProduct
+          reviews={reviews}
+          numReviews={numReviews}
+          averageRating={averageRating}
+          title={title}
+        />
+        <AddReview product={id} />
       </div>
     </div>
   );

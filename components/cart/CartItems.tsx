@@ -1,12 +1,13 @@
 "use client";
 
+import { useDeleteCartItemMutation } from "@/store/cart";
 import { CartItem } from "@/types/Cart.type";
 // import { useDeleteCartMutation } from "@/store/cart";
 import { Trash } from "lucide-react";
 import Image from "next/image";
 
 const CartItems = ({ item }: { item: CartItem }) => {
-  // const [deleteCart] = useDeleteCartMutation();
+  const [deleteCartItem] = useDeleteCartItemMutation();
   return (
     <div
       className="relative flex items-center gap-4 p-4 bg-gradient-to-t to-[#01091f] from-[#15213a]
@@ -35,7 +36,7 @@ const CartItems = ({ item }: { item: CartItem }) => {
         </p>
 
         <button
-          // onClick={() => deleteCart(item._id)}
+          onClick={() => deleteCartItem(item._id)}
           className="p-2 text-red-600 hover:text-red-800 transition"
           title="Remove"
         >
