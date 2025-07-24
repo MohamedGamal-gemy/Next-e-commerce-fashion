@@ -1,12 +1,10 @@
 "use client";
 
-import { deleteReview } from "@/lib/getReviews";
 import { X } from "lucide-react";
-// import { deleteReview } from "@/lib/reviews";
-import { useState } from "react";
+import { useDeleteReviewMutation } from "@/store/reviews";
 import { toast } from "sonner";
-// import { toast } from "react-hot-toast";
-
+// import { useAppSelector } from "@/store/hooks";
+//
 interface DeleteReviewModalProps {
   reviewId: string;
   onClose: () => void;
@@ -16,25 +14,23 @@ export default function DeleteReviewModal({
   reviewId,
   onClose,
 }: DeleteReviewModalProps) {
-  const [loading, setLoading] = useState(false);
+  const [deleteReview, { isLoading }] = useDeleteReviewMutation();
+  // const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   const handleDelete = async () => {
-    setLoading(true);
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("You must be logged in to add a review.");
-      return;
-    }
+    // // ✅ تحقق من تسجيل الدخول
+    // if (!isAuthenticated) {
+    //   toast.warning("Please login to delete a review.");
+    //   return;
+    // }
 
     try {
-      await deleteReview(reviewId, token);
-      toast.success("Review deleted successfully!");
+      await deleteReview(reviewId).unwrap();
+      toast.success("✅ Review deleted successfully!");
       onClose();
-    } catch (error) {
-      console.error("Error deleting review:", error);
-      toast.error("Failed to delete review.");
-    } finally {
-      setLoading(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(`${error?.data?.message || "Failed to delete review."}`);
     }
   };
 
@@ -68,10 +64,10 @@ export default function DeleteReviewModal({
           </button>
           <button
             onClick={handleDelete}
-            disabled={loading}
+            disabled={isLoading}
             className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:opacity-50"
           >
-            {loading ? "Deleting..." : "Delete"}
+            {isLoading ? "Deleting..." : "Delete"}
           </button>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "@/store";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { QuickViewProvider } from "@/context/QuickViewContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 export default function ReduxProvider({
   children,
@@ -12,9 +13,11 @@ export default function ReduxProvider({
 }) {
   return (
     <Provider store={store}>
-      <QuickViewProvider>
-        <NuqsAdapter>{children}</NuqsAdapter>
-      </QuickViewProvider>
+      <AuthProvider>
+        <QuickViewProvider>
+          <NuqsAdapter>{children}</NuqsAdapter>
+        </QuickViewProvider>
+      </AuthProvider>
     </Provider>
   );
 }

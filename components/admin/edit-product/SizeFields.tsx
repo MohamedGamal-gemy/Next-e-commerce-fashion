@@ -17,7 +17,7 @@ export default function SizeFields({
           />
           <input
             type="number"
-            {...register(`variants.${variantIndex}.sizes.${i}.quantity`)}
+            {...register(`variants.${variantIndex}.sizes.${i}.stock`)}
             placeholder="Qty"
             className="border p-1 w-20"
           />
@@ -32,7 +32,7 @@ export default function SizeFields({
       ))}
       <button
         type="button"
-        onClick={() => appendSize({ size: "", quantity: 0 })}
+        onClick={() => appendSize({ size: "", stock: 0 })}
         className="text-blue-500 text-sm"
       >
         + Add Size

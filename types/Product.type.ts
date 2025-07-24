@@ -1,6 +1,6 @@
 export type Variant = {
   color: { name: string; value: string };
-  sizes: { size: string; quantity: number; _id: string }[];
+  sizes: { size: string; stock: number; _id: string }[];
   images: { url: string; _id: string; publicId?: string }[];
   productId?: string;
   createdAt?: string;
@@ -30,6 +30,8 @@ export type ProductShowType = {
   numReviews: number;
   firstImage: string;
   secondImage?: string;
+  imagesOfColors: { _id: string; url: string; publicId?: string }[];
+
   imagesColorsOfVariants?: [] | string[];
   category: { _id: string; name: string; __v?: number };
   subcategory: { _id: string; name: string; __v?: number };

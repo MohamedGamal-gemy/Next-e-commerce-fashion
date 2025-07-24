@@ -11,7 +11,7 @@ export const cart = createApi({
   tagTypes: ["cart"],
   endpoints: (builder) => ({
     getCartItems: builder.query({
-      query: () => "/cart",
+      query: ({ page = 1, limit = 3 }) => `/cart?page=${page}&limit=${limit}`,
       providesTags: ["cart"],
     }),
 
@@ -31,6 +31,20 @@ export const cart = createApi({
       }),
       invalidatesTags: ["cart"],
     }),
+    updateCartstock: builder.mutation({
+      query: ({
+        itemId,
+        action,
+      }: {
+        itemId: string;
+        action: "increment" | "decrement";
+      }) => ({
+        url: `/cart/item/${itemId}`,
+        method: "PUT",
+        body: { action },
+      }),
+      invalidatesTags: ["cart"],
+    }),
   }),
 });
 
@@ -38,4 +52,5 @@ export const {
   useGetCartItemsQuery,
   useAddToCartMutation,
   useDeleteCartItemMutation,
+  useUpdateCartstockMutation,
 } = cart;

@@ -1,8 +1,8 @@
-const SizesAndQuantitySelect = ({
+const SizesAndstockSelect = ({
   setSizeSelected,
-  setQuantityAvailability,
+  setstockAvailability,
   sizes,
-  quantityAvailability,
+  stockAvailability,
   sizeSelected,
 }) => {
   return (
@@ -11,18 +11,18 @@ const SizesAndQuantitySelect = ({
         className="bg-slate-800 p-2 rounded-md"
         onChange={(e) => {
           setSizeSelected(e.target.value);
-          const selectedQuantity = e.target.selectedOptions[0].dataset.qun;
-          setQuantityAvailability(Number(selectedQuantity));
+          const selectedstock = e.target.selectedOptions[0].dataset.qun;
+          setstockAvailability(Number(selectedstock));
         }}
       >
         {sizes.map((s) => (
-          <option value={s.size} data-qun={s.quantity} key={s._id}>
+          <option value={s.size} data-qun={s.stock} key={s._id}>
             {s.size}
           </option>
         ))}
       </select>
       <select className="bg-slate-800 p-2 rounded-md" disabled={!sizeSelected}>
-        {Array.from({ length: quantityAvailability }).map((q, i) => (
+        {Array.from({ length: stockAvailability }).map((q, i) => (
           <option value={i + 1} key={i} disabled={!sizeSelected}>
             {i + 1}
           </option>
@@ -32,4 +32,4 @@ const SizesAndQuantitySelect = ({
   );
 };
 
-export default SizesAndQuantitySelect;
+export default SizesAndstockSelect;

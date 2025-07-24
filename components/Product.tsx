@@ -9,9 +9,10 @@ import HoverImage from "./productsListShow/HoverImage";
 import MainImage from "./productsListShow/MainImage";
 import ColorOfImgThumbnails from "./productsListShow/ColorOfImgThumbnails";
 import useProduct from "@/hooks/useProduct";
+import Image from "next/image";
 
 const Product = ({ product }: { product: ProductShowType }) => {
-  const { images, thumbnail, setProductId } = useProduct({
+  const { setProductId } = useProduct({
     product,
   });
 
@@ -35,7 +36,12 @@ const Product = ({ product }: { product: ProductShowType }) => {
           initial="initial"
           animate="initial"
         >
-          <MainImage altImg={product?.title} mainImage={product.firstImage} />
+          <MainImage
+            altImg={product?.title}
+            mainImage={product.firstImage}
+            imagesOfColors={product?.imagesOfColors}
+          />
+
           {/* <ColorOfImgThumbnails altImg={product?.title} thumbnail={thumbnail} /> */}
         </motion.div>
       </Link>
@@ -54,10 +60,10 @@ const Product = ({ product }: { product: ProductShowType }) => {
         </div>
         {/* <div className="flex items-center justify-between"> */}
         <span
-          className="text-2xl font-bold bg-gradient-to-r from-[#11c03d]
-             to-blue-400 bg-clip-text text-transparent"
+          className="text-2xl font-bold bg-gradient-to-r from-[#137fc7]
+             to-[violet]  bg-clip-text text-transparent"
         >
-          {product.price} EGP
+          LE {product.price.toFixed(2)}
         </span>
         {/* </div> */}
       </div>

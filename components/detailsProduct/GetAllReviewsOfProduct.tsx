@@ -4,6 +4,7 @@ import { Star, Edit, X } from "lucide-react";
 import { useState } from "react";
 import EditReviewModal from "./EditReviewModal";
 import DeleteReviewModal from "./DeleteReviewModal";
+import { useAuth } from "@/context/AuthContext";
 
 const GetAllReviewsOfProduct = ({
   reviews,
@@ -26,11 +27,12 @@ const GetAllReviewsOfProduct = ({
 
   const handleDelete = (id: string) => setDeleteReviewId(id);
   const handleCloseDelete = () => setDeleteReviewId(null);
+  const { user } = useAuth();
 
   return (
     <div className="bg-slate-900 p-6 rounded-xl flex-1 shadow-lg border border-slate-700">
       {/* ✅ عنوان المنتج */}
-      <h2 className="text-2xl font-bold text-white mb-2">{title}</h2>
+      {/* <h2 className="text-2xl font-bold text-white mb-2">{title}</h2> */}
 
       {/* ✅ المتوسط وعدد الريفيوهات */}
       <div className="flex items-center gap-4 mb-6">
@@ -79,22 +81,24 @@ const GetAllReviewsOfProduct = ({
               </p>
 
               {/* ✅ الأزرار */}
-              <div className="flex justify-end gap-4">
-                <button
-                  className="flex items-center gap-1 text-sky-400 text-sm hover:underline hover:text-sky-300"
-                  onClick={() => handleEdit(review)}
-                >
-                  <Edit size={14} />
-                  Edit
-                </button>
-                <button
-                  className="flex items-center gap-1 text-red-400 text-sm hover:underline hover:text-red-300"
-                  onClick={() => handleDelete(review._id)}
-                >
-                  <X size={14} />
-                  Delete
-                </button>
-              </div>
+              {user?.id === review?.user._id && (
+                <div className="flex justify-end gap-4">
+                  <button
+                    className="flex items-center gap-1 text-sky-400 text-sm hover:underline hover:text-sky-300"
+                    onClick={() => handleEdit(review)}
+                  >
+                    <Edit size={14} />
+                    Edit
+                  </button>
+                  <button
+                    className="flex items-center gap-1 text-red-400 text-sm hover:underline hover:text-red-300"
+                    onClick={() => handleDelete(review._id)}
+                  >
+                    <X size={14} />
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>

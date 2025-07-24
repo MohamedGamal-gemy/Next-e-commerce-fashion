@@ -124,9 +124,9 @@
 import { useState } from "react";
 import { Star, X } from "lucide-react";
 import { toast } from "sonner";
-import { updateReview } from "@/lib/getReviews";
-// import { updateReview } from "@/lib/reviews";
-// import { toast } from "react-hot-toast";
+import { useUpdateReviewMutation } from "@/store/reviews"; // ✅ من RTK Query
+import { useAppSelector } from "@/store/hooks"; // ✅ لو عندك Redux
+import { useAuth } from "@/context/AuthContext";
 
 interface EditReviewModalProps {
   review: {
@@ -144,29 +144,37 @@ export default function EditReviewModal({
   const [rating, setRating] = useState(review.rating);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState(review.comment);
-  const [loading, setLoading] = useState(false);
+
+  const { user } = useAuth();
+  const [updateReview, { isLoading }] = useUpdateReviewMutation();
+  // console.log(review);
 
   const handleUpdate = async () => {
+    if (!user) {
+      toast.warning("Please login to update your review.");
+      return;
+    }
+
     if (!comment.trim()) {
       toast.error("Comment cannot be empty!");
       return;
     }
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("You must be logged in to add a review.");
+
+    if (comment.trim().length < 10) {
+      toast.info("Comment should be at least 10 characters.");
       return;
     }
 
-    setLoading(true);
     try {
-      await updateReview(review._id, { rating, comment }, token);
-      toast.success("Review updated successfully!");
+      await updateReview({
+        reviewId: review._id,
+        newItem: { comment, rating },
+      }).unwrap();
+      toast.success("✅ Review updated successfully!");
       onClose();
-    } catch (error) {
-      console.error("Error updating review:", error);
-      toast.error("Failed to update review.");
-    } finally {
-      setLoading(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(`❌ ${error?.data?.message || "Failed to update review."}`);
     }
   };
 
@@ -196,9 +204,9 @@ export default function EditReviewModal({
                 onClick={() => setRating(star)}
                 onMouseEnter={() => setHover(star)}
                 onMouseLeave={() => setHover(0)}
-                className={`cursor-pointer transition ${
+                className={`cursor-pointer transition-transform duration-150 ${
                   star <= (hover || rating)
-                    ? "fill-yellow-400 text-yellow-400"
+                    ? "fill-yellow-400 text-yellow-400 scale-110"
                     : "text-slate-500"
                 }`}
               />
@@ -215,6 +223,9 @@ export default function EditReviewModal({
             className="w-full p-3 rounded-lg bg-slate-800 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500"
             rows={4}
           />
+          <p className="text-xs text-slate-400 mt-1">
+            {comment.length}/200 characters
+          </p>
         </div>
 
         {/* ✅ Buttons */}
@@ -227,10 +238,10 @@ export default function EditReviewModal({
           </button>
           <button
             onClick={handleUpdate}
-            disabled={loading}
+            disabled={isLoading}
             className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 disabled:opacity-50"
           >
-            {loading ? "Saving..." : "Update Review"}
+            {isLoading ? "Saving..." : "Update Review"}
           </button>
         </div>
       </div>

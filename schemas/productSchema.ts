@@ -3,7 +3,7 @@ import { z } from "zod";
 export const sizeSchema = z.object({
   _id: z.string().optional(),
   size: z.string().min(1),
-  quantity: z.number().min(0),
+  stock: z.number().min(0),
 });
 
 export const imageSchema = z.object({

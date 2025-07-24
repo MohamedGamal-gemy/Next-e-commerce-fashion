@@ -6,11 +6,9 @@ import LimitSelector from "./LimitSelector";
 import { memo } from "react";
 import { PackageX } from "lucide-react";
 import { useQuickView } from "@/context/QuickViewContext";
-import QuickLook from "../QuickLook";
-import { useGetProductsFashionQuery } from "@/store/productsData";
+import QuickLook from "./quickLook/QuickLook";
 
 const ProductsRender = ({data}) => {
-  // const { data } = useGetProductsFashionQuery();
   const { productId } = useQuickView();
   return (
     <div className="flex flex-col justify-between ">

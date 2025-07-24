@@ -1,14 +1,14 @@
 import { Variant } from "@/types/Product.type";
 import { memo } from "react";
 
-const SizeAndQuantitySelect = ({
+const SizeAndstockSelect = ({
   sizes,
   setSelectedSize,
-  setSelectedQuantity,
+  setSelectedstock,
 }: {
   sizes: Variant["sizes"];
   setSelectedSize: (size: string | undefined) => void;
-  setSelectedQuantity: (quantity: number | undefined) => void;
+  setSelectedstock: (stock: number | undefined) => void;
 }) => {
   return (
     <div className="flex  gap-4">
@@ -25,10 +25,10 @@ const SizeAndQuantitySelect = ({
       </select>
       {/*  */}
       <select
-        onChange={(e) => setSelectedQuantity(Number(e.target.value))}
+        onChange={(e) => setSelectedstock(Number(e.target.value))}
         className="bg-slate-800 p-3 rounded-md outline-0 w-1/2 "
       >
-        <option value={""}>Select Quantity</option>
+        <option value={""}>Select stock</option>
         {Array.from({ length: 10 }).map((_, i) => (
           <option key={i} value={i + 1}>
             {i + 1}
@@ -39,4 +39,4 @@ const SizeAndQuantitySelect = ({
   );
 };
 
-export default memo(SizeAndQuantitySelect);
+export default memo(SizeAndstockSelect);

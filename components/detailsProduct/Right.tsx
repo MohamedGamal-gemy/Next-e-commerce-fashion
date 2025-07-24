@@ -1,7 +1,7 @@
 "use client";
 import { useAddToCartMutation } from "@/store/cart";
 import { useState } from "react";
-import SizeAndQuantitySelect from "./rightSideOfDetailsPage/SizeAndQuantitySelect";
+// import SizeAndstockSelect from "./rightSideOfDetailsPage/SizeAndstockSelect";
 import VariantsOfProduct from "./rightSideOfDetailsPage/VariantsOfProduct";
 import { Variant } from "@/types/Product.type";
 import { toast } from "sonner";
@@ -24,19 +24,19 @@ const Right = ({
 }) => {
   const [variantId, setVariantId] = useState(variants[0]._id);
   const [selectedSize, setSelectedSize] = useState<string | undefined>();
-  const [selectedQuantity, setSelectedQuantity] = useState<
+  const [selectedstock, setSelectedstock] = useState<
     number | undefined
   >();
   const [addToCart] = useAddToCartMutation();
   const handleAddToCart = () => {
-    if (!selectedSize || !selectedQuantity) {
-      return toast.error("Please select size and quantity");
+    if (!selectedSize || !selectedstock) {
+      return toast.error("Please select size and stock");
     }
     const dataSend = {
       productId: id,
       variantId: variantId,
       size: selectedSize,
-      quantity: selectedQuantity,
+      stock: selectedstock,
     };
     addToCart(dataSend);
   };
@@ -53,11 +53,11 @@ const Right = ({
         <h2 className="text-sky-400 text-2xl font-bold">{price} EGP</h2>
       </div>
 
-      <SizeAndQuantitySelect
-        setSelectedQuantity={setSelectedQuantity}
+      {/* <SizeAndstockSelect
+        setSelectedstock={setSelectedstock}
         setSelectedSize={setSelectedSize}
         sizes={sizes}
-      />
+      /> */}
 
       <VariantsOfProduct
         setVariantId={setVariantId}

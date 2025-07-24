@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 
 export async function getReviews(productId: string) {
   const res = await fetch(`http://localhost:9000/api/reviews/${productId}`, {
@@ -41,18 +42,46 @@ export async function updateReview(
 
   return result;
 }
-export async function addReview(
-  reviewData: { product: string; rating: number; comment: string },
-  token: string
-) {
+// export async function addReview(
+//   reviewData: { product: string; rating: number; comment: string },
+//   token: string
+// ) {
+//   try {
+//     const res = await fetch("http://localhost:9000/api/reviews", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify(reviewData),
+//     });
+
+//     if (!res.ok) {
+//       const errorData = await res.json();
+//       throw new Error(errorData.message || "Failed to add review");
+//     }
+
+//     const data = await res.json();
+//     revalidateTag("reviews");
+//     return data;
+//   } catch (error) {
+//     console.error("Error adding review:", error);
+//     throw error;
+//   }
+// }
+export async function addReview(reviewData: {
+  product: string;
+  rating: number;
+  comment: string;
+}) {
   try {
     const res = await fetch("http://localhost:9000/api/reviews", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Cookie: (await cookies()).toString(),
       },
       body: JSON.stringify(reviewData),
+      credentials: "include",
     });
 
     if (!res.ok) {
@@ -61,13 +90,17 @@ export async function addReview(
     }
 
     const data = await res.json();
+
+    // ✅ إعادة التحقق من البيانات (ISR في Next.js)
     revalidateTag("reviews");
+
     return data;
   } catch (error) {
     console.error("Error adding review:", error);
     throw error;
   }
 }
+
 export async function deleteReview(reviewId: string, token: string) {
   const res = await fetch(`http://localhost:9000/api/reviews/${reviewId}`, {
     method: "DELETE",
